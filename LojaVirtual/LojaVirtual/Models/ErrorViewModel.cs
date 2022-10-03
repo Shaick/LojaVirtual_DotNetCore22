@@ -1,4 +1,7 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LojaVirtual.Models
 {
@@ -6,6 +9,6 @@ namespace LojaVirtual.Models
     {
         public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestID => !string.IsNullOrEmpty(RequestId);
     }
 }
