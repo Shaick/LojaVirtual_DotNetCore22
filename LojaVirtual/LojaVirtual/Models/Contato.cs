@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using LojaVirtual.Library.Lang;
+
 namespace LojaVirtual.Models
 {
     public class Contato

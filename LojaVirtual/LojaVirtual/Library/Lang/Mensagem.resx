@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MSG_E001" xml:space="preserve">
-    <value>O campo {0} é obrigatório!&lt;br&gt;</value>
+    <value>O campo {0} é obrigatório!</value>
   </data>
   <data name="MSG_E002" xml:space="preserve">
-    <value>O campo {0} deve conter no minimo {1} caracteres!&lt;br&gt;</value>
+    <value>O campo {0} deve conter no minimo {1} caracteres!</value>
   </data>
   <data name="MSG_E003" xml:space="preserve">
-    <value>O campo {0} deve conter no maximo {1} caracteres!&lt;br&gt;</value>
+    <value>O campo {0} deve conter no maximo {1} caracteres!</value>
   </data>
   <data name="MSG_E004" xml:space="preserve">
-    <value>O campo {0} não é válido!&lt;br&gt;</value>
+    <value>O campo {0} não é válido!</value>
   </data>
 </root>

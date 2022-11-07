@@ -18,7 +18,9 @@ namespace LojaVirtual.Migrations
                     DataNascimento = table.Column<DateTime>(nullable: false),
                     CPF = table.Column<string>(nullable: true),
                     Sexo = table.Column<string>(nullable: true),
-                    Telefone = table.Column<string>(nullable: true)
+                    Telefone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Senha = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

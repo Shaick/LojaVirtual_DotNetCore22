@@ -6,15 +6,50 @@ using LojaVirtual.Library.Email;
 using LojaVirtual.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using LojaVirtual.Repositories;
 using System.Text;
+using LojaVirtual.Repositories.Contracts;
+using Microsoft.AspNetCore.Http;
+using LojaVirtual.Library.Login;
+using LojaVirtual.Library.Filtro;
 
 namespace LojaVirtual.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private IClienteRepository _repositoryCliente;
+        private INewsletterRepository _repositoryNewsletter;
+        private LoginCliente _loginCliente;
+
+        public HomeController(IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter, LoginCliente loginCliente)
         {
+            _repositoryCliente = repositoryCliente;
+            _repositoryNewsletter = repositoryNewsletter;
+            _loginCliente = loginCliente;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {            
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index([FromForm]NewsletterEmail newsletter)
+        {
+            if(ModelState.IsValid)
+            {
+                _repositoryNewsletter.Cadastrar(newsletter);
+
+                TempData["MSG_S"] = "E-mail cadastradi! Agora você recebe promoções especiais!";
+                
+                return RedirectToAction(nameof(Index));              
+
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Contato()
@@ -59,20 +94,65 @@ namespace LojaVirtual.Controllers
 
                 //TODO - Implementar Log
             }
-            
-
-            
-
             return View("Contato");
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Login([FromForm]Cliente cliente)
+        {
+            Cliente clienteDB = _repositoryCliente.Login(cliente.Email, cliente.Senha);
+
+            if (clienteDB != null)
+            {
+                _loginCliente.Login(clienteDB);
+                return new RedirectResult(Url.Action(nameof(Painel)));
+            }
+            else
+            {
+                ViewData["MSG_E"] = "Usuário não encontrado, verifique E-mail/Senha";
+               return View();
+            }
+        }
+
+        [HttpGet]
+        [ClinteAthorization]
+        public IActionResult Painel()
+        {
+            Cliente cliente = _loginCliente.GetCliente();
+            if( cliente != null)
+            {
+                return new ContentResult() { Content = "Usuário " + cliente.Id + " E-mail " + cliente.Email + " Logado! " };
+            }
+            else
+            {
+                return new ContentResult() { Content = "Acesso Negado!" };
+            }            
+        }
+
+        [HttpGet]
         public IActionResult CadastroCliente()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CadastroCliente([FromForm]Cliente cliente)
+        {
+            if(ModelState.IsValid)
+            {
+                _repositoryCliente.Cadastrar(cliente);          
+
+                TempData["MSG_S"] = "Cadastro Realizado com Sucesso!";
+
+                //TODO - Implementar redirecionamento diferentes (Painel, Carrinho de compras e etc).
+                return RedirectToAction(nameof(CadastroCliente));
+            }
             return View();
         }
 

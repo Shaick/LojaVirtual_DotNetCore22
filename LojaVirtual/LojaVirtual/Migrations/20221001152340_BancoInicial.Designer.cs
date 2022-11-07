@@ -37,6 +37,10 @@ namespace LojaVirtual.Migrations
 
                     b.Property<string>("Telefone");
 
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Senha");
+
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
